@@ -264,6 +264,37 @@ public:
 		}
 	}
 
+	//Евклидова
+	double calcNorm2R()
+	{
+		double res = 0;
+		for (int i = 1; i < v.size() - 1; i++)
+		{
+			for (int j = 1; j < v[i].size() - 1; j++)
+			{
+				res += r[i][j] * r[i][j];
+			}
+		}
+		return sqrt(res);
+	}
+
+	//Бесконечности
+	double calcNormR()
+	{
+		double res = 0;
+		for (int i = 1; i < v.size() - 1; i++)
+		{
+			for (int j = 1; j < v[i].size() - 1; j++)
+			{
+				if (res <= r[i][j])
+				{
+					res = r[i][j];
+				}
+			}
+		}
+		return res;
+	}
+
 	virtual double step() { cout << 0;  return 0; }
 
 	int solve(int n, double eps)
