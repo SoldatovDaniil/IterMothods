@@ -51,14 +51,14 @@ double testFunc(double x, double y)
 
 void main()
 {
-	double Eps = 1e-8;
+	double Eps = 1e-10;
 	int N = 20000;
 	double a = 0;
 	double b = 1;
 	double c = 0;
 	double d = 2;
-	int n = 30;
-	int m = 30;
+	int n = 120;
+	int m = 120;
 	double w = 1.2;
 
 	double (*pt1)(double, double) = NULL;

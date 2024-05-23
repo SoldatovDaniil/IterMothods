@@ -1,7 +1,7 @@
 ﻿  main.cpp
-C:\Users\Даниил\source\repos\ChMLaba2\ChMLaba2\Method.cpp(397,34): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+C:\Users\Даниил\source\repos\ChMLaba2\ChMLaba2\Method.cpp(417,34): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
 C:\Users\Даниил\source\repos\ChMLaba2\ChMLaba2\main.cpp(53,1): warning C4326: возвращаемый тип "main" должен быть "int", а не "void"
   Method.cpp
-C:\Users\Даниил\source\repos\ChMLaba2\ChMLaba2\Method.cpp(397,34): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
+C:\Users\Даниил\source\repos\ChMLaba2\ChMLaba2\Method.cpp(417,34): warning C4390: ";": обнаружен пустой контролируемый оператор; это правильно?
   Создание кода...
   ChMLaba2.vcxproj -> C:\Users\Даниил\source\repos\ChMLaba2\x64\Debug\ChMLaba2.exe

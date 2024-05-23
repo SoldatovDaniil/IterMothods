@@ -2,6 +2,8 @@
 #include <string>
 #include <vector>
 #include <cmath>
+#include "CustomField.h"
+
 
 using namespace std;
 template<typename T>
@@ -108,12 +110,30 @@ public:
 		for (int i = 0; i < xArr.size(); i++)
 		{
 			bound1.push_back((*ptFunc1)(xArr[i], c));
+			v[0][i] = ((*ptFunc1)(xArr[i], c));
 			bound2.push_back((*ptFunc2)(xArr[i], d));
+			v[mY][i] = ((*ptFunc2)(xArr[i], d));
 		}
 		for (int i = 0; i < yArr.size(); i++)
 		{
 			bound3.push_back((*ptFunc3)(a, yArr[i]));
+			v[i][0] = ((*ptFunc3)(a, yArr[i]));
 			bound4.push_back((*ptFunc4)(b, yArr[i]));
+			v[i][nX] = ((*ptFunc4)(b, yArr[i]));
+		}
+	}
+
+	void initBoundSpec(double (*ptFunc)(double, double))
+	{
+		for (int i = 0; i < yArr.size(); i++)
+		{
+			for (int j = 0; i < xArr.size(); j++)
+			{
+				if (CustomField::isBound(i, j, mY, nX))
+				{
+					v[i][j] = ((*ptFunc)(xArr[j], yArr[i]));
+				}
+			}
 		}
 	}
 
@@ -124,7 +144,7 @@ public:
 			for (int j = 1; j < xArr.size() - 1; j++)
 			{
 				right[i][j] = -((*ptFucn)(xArr[j], yArr[i]));
-				if (i == 1 && j == 1)
+				/*if (i == 1 && j == 1)
 				{
 					right[i][j] -= hcoef * bound3[i] + kcoef * bound1[j];
 				}
@@ -155,7 +175,7 @@ public:
 				else if (j == nX - 1)
 				{
 					right[i][j] -= hcoef * bound4[i];
-				}
+				}*/
 			}
 		}
 	}
@@ -295,7 +315,7 @@ public:
 		return res;
 	}
 
-	virtual double step() { cout << 0;  return 0; }
+	virtual double step(bool flag = false) { cout << 0;  return 0; }
 
 	int solve(int n, double eps)
 	{
@@ -341,7 +361,7 @@ public:
 		tau = ArR / Ar2;
 	}
 
-	double step() override//возвращает разность vs - (vs + 1)
+	double step(bool flag = false) override//возвращает разность vs - (vs + 1)
 	{
 		double vij;
 		double res = 0;
@@ -381,7 +401,7 @@ public:
 		w = omega; 
 	}
 
-	double step() override
+	double step(bool flag = false) override
 	{
 		double vold;
 		double vnew;
@@ -477,7 +497,7 @@ public:
 		betta = AhR / Ah2;
 	}
 
-	double firstStep()
+	double firstStep(bool flag = false)
 	{
 		double res = 0;
 		calculateR();
@@ -487,17 +507,35 @@ public:
 		{
 			for (int j = 1; j < v[i].size() - 1; j++)
 			{
-				v[i][j] = v[i][j] + alpha * dir[i][j];
-				if (abs(alpha * dir[i][j]) >= res)
+				if (flag)
 				{
-					res = abs(alpha * dir[i][j]);
+					if (!(CustomField::isBound(i, j, mY, nX)) && CustomField::isInField(i, j, mY, nX))
+					{
+						v[i][j] = v[i][j] + alpha * dir[i][j];
+						if (abs(alpha * dir[i][j]) >= res)
+						{
+							res = abs(alpha * dir[i][j]);
+						}
+					}
+					else
+					{
+						continue;
+					}
+				}
+				else
+				{
+					v[i][j] = v[i][j] + alpha * dir[i][j];
+					if (abs(alpha * dir[i][j]) >= res)
+					{
+						res = abs(alpha * dir[i][j]);
+					}
 				}
 			}
 		}
 		return res;
 	}
 
-	double step() override
+	double step(bool flag = false) override
 	{
 		double res = 0;
 		calculateR();
@@ -508,10 +546,28 @@ public:
 		{
 			for (int j = 1; j < v[i].size() - 1; j++)
 			{
-				v[i][j] = v[i][j] + alpha * dir[i][j];
-				if (abs(alpha * dir[i][j]) >= res)
+				if (flag)
 				{
-					res = abs(alpha * dir[i][j]);
+					if (!(CustomField::isBound(i, j, mY, nX)) && CustomField::isInField(i, j, mY, nX))
+					{
+						v[i][j] = v[i][j] + alpha * dir[i][j];
+						if (abs(alpha * dir[i][j]) >= res)
+						{
+							res = abs(alpha * dir[i][j]);
+						}
+					}
+					else
+					{
+						continue;
+					}
+				}
+				else
+				{
+					v[i][j] = v[i][j] + alpha * dir[i][j];
+					if (abs(alpha * dir[i][j]) >= res)
+					{
+						res = abs(alpha * dir[i][j]);
+					}
 				}
 			}
 		}
